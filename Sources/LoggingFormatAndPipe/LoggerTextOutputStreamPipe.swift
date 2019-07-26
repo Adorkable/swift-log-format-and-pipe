@@ -13,25 +13,36 @@ import Glibc
 
 import Logging
 
+/// A pipe for sending logs to a `TextOutputStream`
 public struct LoggerTextOutputStreamPipe: Pipe {
-    public static var standardOutput: LoggerTextOutputStreamPipe {
-        return LoggerTextOutputStreamPipe(StdioOutputStream.stdout)
-    }
-
-    public static var standardError: LoggerTextOutputStreamPipe {
-        return LoggerTextOutputStreamPipe(StdioOutputStream.stderr)
-    }
-
     private let stream: TextOutputStream
 
+    /// Default init
+    /// - Parameter _: Our stream to pipe to
+    public init(_ stream: TextOutputStream) {
+        self.stream = stream
+    }
+
+    /// Our main log handling pipe method
+    /// - Parameters:
+    ///   - _: The formatted log to handle
     public func handle(_ formattedLogLine: String) {
         var stream = self.stream
         stream.write("\(formattedLogLine)\n")
     }
+}
 
-    internal init(_ stream: TextOutputStream) {
-        self.stream = stream
+extension LoggerTextOutputStreamPipe {
+    /// Pipe logs to Standard Output (stdout)
+    public static var standardOutput: LoggerTextOutputStreamPipe {
+        return LoggerTextOutputStreamPipe(StdioOutputStream.stdout)
     }
+
+    /// Pipe logs to Standard Error (stderr)
+    public static var standardError: LoggerTextOutputStreamPipe {
+        return LoggerTextOutputStreamPipe(StdioOutputStream.stderr)
+    }
+
 }
 
 /// Copied from swift-log:Logging.swift until it is made public
@@ -39,8 +50,10 @@ public struct LoggerTextOutputStreamPipe: Pipe {
 /// ensures access to the underlying `FILE` is locked to prevent
 /// cross-thread interleaving of output.
 public struct StdioOutputStream: TextOutputStream {
+    /// File handler we're writing to
     public let file: UnsafeMutablePointer<FILE>
 
+    /// Write to file
     public func write(_ string: String) {
         string.withCString { ptr in
             flockfile(file)

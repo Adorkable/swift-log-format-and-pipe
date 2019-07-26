@@ -7,14 +7,14 @@
 
 import XCTest
 import Logging
-@testable import LoggingFormatAndPipe
+import LoggingFormatAndPipe
 
 final class LoggerTextOutputStreamPipeTests: XCTestCase {
     func testStdout() {
         let logger = Logger(label: "testStdout") { _ in
             return LoggingFormatAndPipe.Handler(
             formatter: BasicFormatter(),
-            pipe: LoggerTextOutputStreamPipe(LoggingFormatAndPipe.StdioOutputStream.stdout)
+            pipe: LoggerTextOutputStreamPipe.standardOutput
             )
         }
 
@@ -29,7 +29,7 @@ final class LoggerTextOutputStreamPipeTests: XCTestCase {
         let logger = Logger(label: "testStderr") { _ in
             return LoggingFormatAndPipe.Handler(
                 formatter: BasicFormatter(),
-                pipe: LoggerTextOutputStreamPipe(LoggingFormatAndPipe.StdioOutputStream.stderr)
+                pipe: LoggerTextOutputStreamPipe.standardError
             )
         }
 

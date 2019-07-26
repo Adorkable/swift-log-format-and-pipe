@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>LoggingFormatAndPipe  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+
+    <a title="LoggingFormatAndPipe  Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="index.html">
+          LoggingFormatAndPipe Docs
+        </a>
+         (100% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/Adorkable/swift-log-format-and-pipe">
+            <img class="header-icon" src="img/gh.png"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="index.html">LoggingFormatAndPipe Reference</a>
+      <img class="carat" src="img/carat.png" />
+      LoggingFormatAndPipe  Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/LogComponent.html">LogComponent</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/Formatter.html">Formatter</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/Pipe.html">Pipe</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/BasicFormatter.html">BasicFormatter</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Handler.html">Handler</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/LoggerTextOutputStreamPipe.html">LoggerTextOutputStreamPipe</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/StdioOutputStream.html">StdioOutputStream</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content">
+            
+            <h1 id='loggingformatandpipe' class='heading'>LoggingFormatAndPipe</h1>
+
+<p><strong>LoggingFormatAndPipe</strong> provides a <a href="https://github.com/apple/swift-log">Swift Logging API</a> Handler which allows you to customized both your log messages&rsquo; formats as well as their destinations.</p>
+
+<p>If you don&rsquo;t like the default log format change it to one you would like. If you want one destination to be formatted differently than your other destination you can with ease. Or send the same format to multiple destinations!</p>
+
+<p align="center">
+    <a href="#installation">Installation</a> | <a href="#getting-started">Getting Started</a> | <a href="http://adorkable.github.io/swift-log-format-and-pipe/">Documentation</a>
+</p>
+<h2 id='installation' class='heading'>Installation</h2>
+<h3 id='swiftpm' class='heading'>SwiftPM</h3>
+
+<p>To use the <strong>LoggingFormatAndPipe</strong> library in your project add the following in your <code>Package.swift</code>:</p>
+<pre class="highlight swift"><code><span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/adorkable/swift-log-format-and-pipe.git"</span><span class="p">,</span> <span class="o">.</span><span class="nf">from</span><span class="p">(</span><span class="s">"0.1.0"</span><span class="p">)),</span>
+</code></pre>
+<h2 id='getting-started' class='heading'>Getting Started</h2>
+
+<p><code>LoggingFormatAndPipe.Handler</code> expects both a <code><a href="Protocols/Formatter.html">Formatter</a></code> and a <code><a href="Protocols/Pipe.html">Pipe</a></code></p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">logger</span> <span class="o">=</span> <span class="kt">Logger</span><span class="p">(</span><span class="nv">label</span><span class="p">:</span> <span class="s">"example"</span><span class="p">)</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> 
+    <span class="k">return</span> <span class="kt">LoggingFormatAndPipe</span><span class="o">.</span><span class="kt">Handler</span><span class="p">(</span>
+        <span class="nv">formatter</span><span class="p">:</span> <span class="o">...</span><span class="p">,</span>
+        <span class="nv">pipe</span><span class="p">:</span> <span class="o">...</span>
+    <span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='format' class='heading'>Format</h3>
+
+<p>There are a number of ways of customizing the format.</p>
+<h4 id='basicformatter' class='heading'>BasicFormatter</h4>
+
+<p><code><a href="Structs/BasicFormatter.html">BasicFormatter</a></code> allows you to set the sequence of <code>LogComponents</code>, a separator and automatically processes them for each new log message.</p>
+
+<p>Suppose you want a special short log format with a timestamp, the level, the file it originated in, and the message itself:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">myFormat</span> <span class="o">=</span> <span class="kt">BasicFormatter</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="o">.</span><span class="n">timestamp</span><span class="p">,</span> 
+        <span class="o">.</span><span class="n">level</span><span class="p">,</span>
+        <span class="o">.</span><span class="n">file</span><span class="p">,</span>
+        <span class="o">.</span><span class="n">message</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</code></pre>
+
+<p>To change the separator from a single space specify the separator parameter:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">myFormat</span> <span class="o">=</span> <span class="kt">BasicFormatter</span><span class="p">(</span>
+    <span class="o">...</span><span class="p">,</span>
+    <span class="nv">separator</span><span class="p">:</span> <span class="s">"|"</span>
+<span class="p">)</span>
+</code></pre>
+
+<p>To change the timestamp from the default:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">myDateFormat</span> <span class="o">=</span> <span class="kt">DateFormatter</span><span class="p">()</span>
+<span class="n">myDateFormat</span><span class="o">.</span><span class="n">dateFormat</span> <span class="o">=</span> <span class="s">"yyyy-MM-dd'T'HH:mm:ssZZZZZ"</span>
+<span class="k">let</span> <span class="nv">myFormat</span> <span class="o">=</span> <span class="kt">BasicFormatter</span><span class="p">(</span>
+    <span class="o">...</span><span class="p">,</span>
+    <span class="nv">timestampFormatter</span><span class="p">:</span> <span class="n">myDateFormat</span>
+<span class="p">)</span>
+</code></pre>
+
+<p><code><a href="Structs/BasicFormatter.html">BasicFormatter</a></code> also includes already setup static instances:</p>
+
+<ul>
+<li><code>.apple</code> - <a href="https://github.com/apple/swift-log">apple/swift-log</a> format</li>
+<li><code>.adorkable</code> - Adorkable&rsquo;s standard format 😘</li>
+</ul>
+<h4 id='implementing-formatter' class='heading'>Implementing Formatter</h4>
+
+<p>You can also create your own <code><a href="Protocols/Formatter.html">Formatter</a></code> conforming object by implementing:</p>
+
+<ul>
+<li><code>var timestampFormatter: DateFormatter { get }</code></li>
+<li><code>func processLog(level: Logger.Level,
+                message: Logger.Message,
+                prettyMetadata: String?,
+                file: String, function: String, line: UInt) -&gt; String</code></li>
+</ul>
+
+<p>More formatters to come!</p>
+<h3 id='pipe' class='heading'>Pipe</h3>
+
+<p>Pipes specify where your formatted log lines end up going to. Included already are:</p>
+
+<ul>
+<li><code><a href="Structs/LoggerTextOutputStreamPipe.html#/s:20LoggingFormatAndPipe022LoggerTextOutputStreamD0V08standardG0ACvpZ">LoggerTextOutputStreamPipe.standardOutput</a></code> - log lines to <code>stdout</code></li>
+<li><code><a href="Structs/LoggerTextOutputStreamPipe.html#/s:20LoggingFormatAndPipe022LoggerTextOutputStreamD0V13standardErrorACvpZ">LoggerTextOutputStreamPipe.standardError</a></code> - log lines to <code>stderr</code></li>
+</ul>
+
+<p>More pipes to come!</p>
+<h4 id='implementing-pipe' class='heading'>Implementing Pipe</h4>
+
+<p>You can also create your own <code><a href="Protocols/Pipe.html">Pipe</a></code> conforming object by implementing:</p>
+
+<ul>
+<li><code>func handle(_ formattedLogLine: String)</code></li>
+</ul>
+
+<p>Easy!</p>
+
+<p>Now you&rsquo;ve got your use-case formatted log lines traveling this way and then, what a charm 🖤</p>
+<h3 id='api-documentation' class='heading'>API Documentation</h3>
+
+<p>For more insight into the library API documentation is found in the repo <a href="http://adorkable.github.io/swift-log-format-and-pipe/">here</a></p>
+
+          </div>
+        </section>
+
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>CC 2019 Adorkable</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
+  </body>
+</div>
+</html>

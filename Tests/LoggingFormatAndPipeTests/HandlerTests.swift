@@ -7,7 +7,7 @@
 
 import XCTest
 import Logging
-@testable import LoggingFormatAndPipe
+import LoggingFormatAndPipe
 
 final class HandlerTests: XCTestCase {
     func testPiping() {

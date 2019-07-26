@@ -8,20 +8,32 @@
 import Logging
 import Foundation
 
+/// Possible log format components
 public enum LogComponent {
+    /// Timestamp of log
+    /// Specifying your timestamp format can be done by providing a DateFormatter through `Formatter.timestampFormatter`
     case timestamp
 
+    /// Log level
     case level
+    /// The actual message
     case message
+    /// Log metadata
     case metadata
+    /// The log's originating file
     case file
+    /// The log's originating function
     case function
+    /// The log's originating line number
     case line
 
+    /// Literal text
     case text(String)
+    /// A group of `LogComponents`, not using the specified `separator`
     case group([LogComponent])
 
-    static var allNonmetaComponents: [LogComponent] {
+    /// All basic log format component types
+    public static var allNonmetaComponents: [LogComponent] {
         return [
             .timestamp,
             .level,
@@ -34,9 +46,19 @@ public enum LogComponent {
     }
 }
 
+/// Log Formatter
 public protocol Formatter {
+    /// Timestamp formatter
     var timestampFormatter: DateFormatter { get }
 
+    /// Formatter's chance to format the log
+    /// - Parameter level: log level
+    /// - Parameter message: actual message
+    /// - Parameter prettyMetadata: optional metadata that has already been "prettified"
+    /// - Parameter file: log's originating file
+    /// - Parameter function: log's originating function
+    /// - Parameter line: log's originating line
+    /// - Returns: Result of formatting the log
     func processLog(level: Logger.Level,
                     message: Logger.Message,
                     prettyMetadata: String?,
@@ -45,6 +67,16 @@ public protocol Formatter {
 }
 
 extension Formatter {
+    /// Common usage component formatter
+    /// - Parameter _: component to format
+    /// - Parameter now: log's Date
+    /// - Parameter level: log level
+    /// - Parameter message: actual message
+    /// - Parameter prettyMetadata: optional metadata that has already been "prettified"
+    /// - Parameter file: log's originating file
+    /// - Parameter function: log's originating function
+    /// - Parameter line: log's originating line
+    /// - Returns: Result of formatting the component
     public func processComponent(_ component: LogComponent, now: Date, level: Logger.Level,
                                   message: Logger.Message,
                                   prettyMetadata: String?,
@@ -72,62 +104,4 @@ extension Formatter {
             }).joined()
         }
     }
-}
-
-public struct BasicFormatter: Formatter {
-    public let format: [LogComponent]
-    public let seperator: String?
-    public let timestampFormatter: DateFormatter
-
-    static public var timestampFormatter: DateFormatter {
-        let result = DateFormatter()
-        result.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        return result
-    }
-
-    init(_ format: [LogComponent] = LogComponent.allNonmetaComponents, seperator: String = " ", timestampFormatter: DateFormatter = BasicFormatter.timestampFormatter) {
-        self.format = format
-        self.seperator = seperator
-        self.timestampFormatter = timestampFormatter
-    }
-
-    public func processLog(level: Logger.Level,
-                           message: Logger.Message,
-                           prettyMetadata: String?,
-                           file: String, function: String, line: UInt) -> String {
-        let now = Date()
-
-        return self.format.map({ (component) -> String in
-            return self.processComponent(component, now: now, level: level, message: message, prettyMetadata: prettyMetadata, file: file, function: function, line: line)
-        }).filter({ (string) -> Bool in
-            return string.count > 0
-        }).joined(separator: self.seperator ?? "")
-    }
-
-    public static let apple = BasicFormatter(
-        [
-            .timestamp,
-            .group([
-                .level,
-                .text(":"),
-            ]),
-            .message
-        ]
-    )
-
-    public static let adorkable = BasicFormatter(
-        [
-            .timestamp,
-            .level,
-            .group([
-                .file,
-                .text(":"),
-                .line
-            ]),
-            .function,
-            .message,
-            .metadata
-        ],
-        seperator: " ▶ "
-    )
 }

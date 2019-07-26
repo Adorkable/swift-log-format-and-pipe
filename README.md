@@ -4,7 +4,7 @@
 If you don't like the default log format change it to one you would like. If you want one destination to be formatted differently than your other destination you can with ease. Or send the same format to multiple destinations!
 
 <p align="center">
-    <a href="#installation">Installation</a> | <a href="#getting-started">Getting Started</a>
+    <a href="#installation">Installation</a> | <a href="#getting-started">Getting Started</a> | <a href="http://adorkable.github.io/swift-log-format-and-pipe/">Documentation</a>
 </p>
 
 ## Installation
@@ -35,7 +35,7 @@ let logger = Logger(label: "example") { _ in
 There are a number of ways of customizing the format.
 
 #### BasicFormatter
-`BasicFormatter` allows you to set the sequence of `LogComponents`, a seperator and automatically processes them for each new log message.
+`BasicFormatter` allows you to set the sequence of `LogComponents`, a separator and automatically processes them for each new log message.
 
 Suppose you want a special short log format with a timestamp, the level, the file it originated in, and the message itself:
 
@@ -50,12 +50,12 @@ let myFormat = BasicFormatter(
 )
 ```
 
-To change the seperator from a single space specify the seperator parameter:
+To change the separator from a single space specify the separator parameter:
 
 ```swift
 let myFormat = BasicFormatter(
 	...,
-	seperator: "|"
+	separator: "|"
 )
 ```
 
@@ -104,3 +104,5 @@ Easy!
 
 Now you've got your use-case formatted log lines traveling this way and then, what a charm 🖤
 
+### API Documentation
+For more insight into the library API documentation is found in the repo [here](http://adorkable.github.io/swift-log-format-and-pipe/)

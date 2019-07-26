@@ -6,7 +6,7 @@
 //
 
 import Foundation
-@testable import LoggingFormatAndPipe
+import LoggingFormatAndPipe
 import XCTest
 
 internal class HistoryPipe: LoggingFormatAndPipe.Pipe {

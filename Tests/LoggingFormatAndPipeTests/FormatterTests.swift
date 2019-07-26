@@ -7,7 +7,7 @@
 
 import XCTest
 import Logging
-@testable import LoggingFormatAndPipe
+import LoggingFormatAndPipe
 
 final class FormatterTests: XCTestCase {
     func testFormatter(_ formatter: LoggingFormatAndPipe.Formatter) {
