@@ -1,0 +1,9 @@
+os:
+- osx
+language: generic
+sudo: required
+dist: trusty
+osx_image: xcode10.2
+script:
+- swift build
+- swift test
