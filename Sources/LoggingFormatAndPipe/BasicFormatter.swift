@@ -22,7 +22,7 @@ public struct BasicFormatter: Formatter {
     /// Default timestamp component formatter
     static public var timestampFormatter: DateFormatter {
         let result = DateFormatter()
-        result.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        result.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         return result
     }
 
