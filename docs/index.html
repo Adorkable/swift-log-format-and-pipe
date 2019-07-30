@@ -155,8 +155,23 @@
 
 <ul>
 <li><code>.apple</code> - <a href="https://github.com/apple/swift-log">apple/swift-log</a> format</li>
+</ul>
+
+<p><code>{timestamp} {level}: {message}</code></p>
+
+<p><em>Example:</em></p>
+
+<p><code>2019-07-30T13:49:07-0400 error: Test error message</code></p>
+
+<ul>
 <li><code>.adorkable</code> - Adorkable&rsquo;s standard format 😘</li>
 </ul>
+
+<p><code>{timestamp} ▶ {level} ▶ {file}:{line} ▶ {function} ▶ {message} ▶ {metadata}</code></p>
+
+<p><em>Example:</em></p>
+
+<p><code>2019-07-30T13:49:07-0400 ▶ error ▶ /asdf/swift-log-format-and-pipe/Tests/LoggingFormatAndPipeTests/FormatterTests.swift:25 ▶ testFormatter(_:) ▶ Test error message</code></p>
 <h4 id='implementing-formatter' class='heading'>Implementing Formatter</h4>
 
 <p>You can also create your own <code><a href="Protocols/Formatter.html">Formatter</a></code> conforming object by implementing:</p>

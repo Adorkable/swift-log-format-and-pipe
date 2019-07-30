@@ -73,7 +73,19 @@ let myFormat = BasicFormatter(
 `BasicFormatter` also includes already setup static instances:
 
 * `.apple` - [apple/swift-log](https://github.com/apple/swift-log) format
-* `.adorkable` - Adorkable's standard format 😘
+
+  `{timestamp} {level}: {message}`
+
+  *Example:*
+  
+  `2019-07-30T13:49:07-0400 error: Test error message`
+* `.adorkable` - Adorkable's standard format 😘 
+
+  `{timestamp} ▶ {level} ▶ {file}:{line} ▶ {function} ▶ {message} ▶ {metadata}`
+
+  *Example:*
+  
+  `2019-07-30T13:49:07-0400 ▶ error ▶ /asdf/swift-log-format-and-pipe/Tests/LoggingFormatAndPipeTests/FormatterTests.swift:25 ▶ testFormatter(_:) ▶ Test error message`
 
 #### Implementing Formatter
 You can also create your own `Formatter` conforming object by implementing:

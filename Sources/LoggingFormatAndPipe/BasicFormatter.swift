@@ -60,6 +60,12 @@ public struct BasicFormatter: Formatter {
     }
 
     /// [apple/swift-log](https://github.com/apple/swift-log)'s log format
+    /// 
+    /// `{timestamp} {level}: {message}`
+    ///
+    /// *Example:*
+    ///
+    /// `2019-07-30T13:49:07-0400 error: Test error message`
     public static let apple = BasicFormatter(
         [
             .timestamp,
@@ -72,6 +78,12 @@ public struct BasicFormatter: Formatter {
     )
 
     /// Adorkable's go-to log format 😘
+    ///
+    /// `{timestamp} ▶ {level} ▶ {file}:{line} ▶ {function} ▶ {message} ▶ {metadata}`
+    ///
+    /// *Example:*
+    ///
+    /// `2019-07-30T13:49:07-0400 ▶ error ▶ /asdf/swift-log-format-and-pipe/Tests/LoggingFormatAndPipeTests/FormatterTests.swift:25 ▶ testFormatter(_:) ▶ Test error message`
     public static let adorkable = BasicFormatter(
         [
             .timestamp,
