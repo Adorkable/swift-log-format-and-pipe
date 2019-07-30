@@ -105,7 +105,7 @@
 <h3 id='swiftpm' class='heading'>SwiftPM</h3>
 
 <p>To use the <strong>LoggingFormatAndPipe</strong> library in your project add the following in your <code>Package.swift</code>:</p>
-<pre class="highlight swift"><code><span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/adorkable/swift-log-format-and-pipe.git"</span><span class="p">,</span> <span class="o">.</span><span class="nf">from</span><span class="p">(</span><span class="s">"0.1.1"</span><span class="p">)),</span>
+<pre class="highlight swift"><code><span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/adorkable/swift-log-format-and-pipe.git"</span><span class="p">,</span> <span class="o">.</span><span class="nf">from</span><span class="p">(</span><span class="s">"0.1.2"</span><span class="p">)),</span>
 </code></pre>
 <h2 id='getting-started' class='heading'>Getting Started</h2>
 
@@ -117,41 +117,35 @@
     <span class="p">)</span>
 <span class="p">}</span>
 </code></pre>
-<h3 id='format' class='heading'>Format</h3>
 
-<p>There are a number of ways of customizing the format.</p>
-<h4 id='basicformatter' class='heading'>BasicFormatter</h4>
-
-<p><code><a href="Structs/BasicFormatter.html">BasicFormatter</a></code> allows you to set the sequence of <code>LogComponents</code>, a separator and automatically processes them for each new log message.</p>
-
-<p>Suppose you want a special short log format with a timestamp, the level, the file it originated in, and the message itself:</p>
-<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">myFormat</span> <span class="o">=</span> <span class="kt">BasicFormatter</span><span class="p">(</span>
-    <span class="p">[</span>
-        <span class="o">.</span><span class="n">timestamp</span><span class="p">,</span> 
-        <span class="o">.</span><span class="n">level</span><span class="p">,</span>
-        <span class="o">.</span><span class="n">file</span><span class="p">,</span>
-        <span class="o">.</span><span class="n">message</span>
-    <span class="p">]</span>
-<span class="p">)</span>
+<p><em>Example:</em></p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">logger</span> <span class="o">=</span> <span class="kt">Logger</span><span class="p">(</span><span class="nv">label</span><span class="p">:</span> <span class="s">"example"</span><span class="p">)</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> 
+    <span class="k">return</span> <span class="kt">LoggingFormatAndPipe</span><span class="o">.</span><span class="kt">Handler</span><span class="p">(</span>
+        <span class="nv">formatter</span><span class="p">:</span> <span class="kt">BasicFormatter</span><span class="o">.</span><span class="n">adorkable</span><span class="p">,</span>
+        <span class="nv">pipe</span><span class="p">:</span> <span class="kt">LoggerTextOutputStreamPipe</span><span class="o">.</span><span class="n">standardOutput</span>
+    <span class="p">)</span>
+<span class="p">}</span>
 </code></pre>
+<h2 id='formatting' class='heading'>Formatting</h2>
 
-<p>To change the separator from a single space specify the separator parameter:</p>
-<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">myFormat</span> <span class="o">=</span> <span class="kt">BasicFormatter</span><span class="p">(</span>
-    <span class="o">...</span><span class="p">,</span>
-    <span class="nv">separator</span><span class="p">:</span> <span class="s">"|"</span>
-<span class="p">)</span>
-</code></pre>
+<p>There are a number of ways of customizing the format but are generally composed of a combination of <code>LogComponents</code>:</p>
 
-<p>To change the timestamp from the default:</p>
-<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">myDateFormat</span> <span class="o">=</span> <span class="kt">DateFormatter</span><span class="p">()</span>
-<span class="n">myDateFormat</span><span class="o">.</span><span class="n">dateFormat</span> <span class="o">=</span> <span class="s">"yyyy-MM-dd'T'HH:mm:ssZZZZZ"</span>
-<span class="k">let</span> <span class="nv">myFormat</span> <span class="o">=</span> <span class="kt">BasicFormatter</span><span class="p">(</span>
-    <span class="o">...</span><span class="p">,</span>
-    <span class="nv">timestampFormatter</span><span class="p">:</span> <span class="n">myDateFormat</span>
-<span class="p">)</span>
-</code></pre>
+<ul>
+<li><code>.timestamp</code> - Timestamp of log</li>
+<li><code>.level</code> - Log level</li>
+<li><code>.message</code> - The actual message</li>
+<li><code>.metadata</code> - Log metadata</li>
+<li><code>.file</code> - The log&rsquo;s originating file</li>
+<li><code>.line</code> - The log&rsquo;s originating line number in the file</li>
+<li><code>.function</code> - The log&rsquo;s originating function</li>
+<li><code>.text(String)</code> - Static text</li>
+<li><code>.group([LogComponents])</code> - Formatters may separate specified <code>LogComponents</code> in various ways as per their format, <code>.group</code> tells the Formatter to combine the <code>LogComponents</code> without using its separation</li>
+</ul>
+<h3 id='basicformatter' class='heading'>BasicFormatter</h3>
 
-<p><code><a href="Structs/BasicFormatter.html">BasicFormatter</a></code> also includes already setup static instances:</p>
+<p><code><a href="Structs/BasicFormatter.html">BasicFormatter</a></code> allows you to specify a sequence of <code>LogComponents</code> and a separator string and automatically processes them into a single line for each new log message. </p>
+
+<p>It includes already setup static instances:</p>
 
 <ul>
 <li><code>.apple</code> - <a href="https://github.com/apple/swift-log">apple/swift-log</a> format</li>
@@ -172,7 +166,39 @@
 <p><em>Example:</em></p>
 
 <p><code>2019-07-30T13:49:07-0400 ▶ error ▶ /asdf/swift-log-format-and-pipe/Tests/LoggingFormatAndPipeTests/FormatterTests.swift:25 ▶ testFormatter(_:) ▶ Test error message</code></p>
-<h4 id='implementing-formatter' class='heading'>Implementing Formatter</h4>
+<h4 id='customizing-a-basicformatter' class='heading'>Customizing a BasicFormatter</h4>
+
+<p>If none of these work you can customize your own instance!</p>
+
+<p>Suppose you want a special short log format with a timestamp, the level, the file it originated in, and the message itself:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">myFormat</span> <span class="o">=</span> <span class="kt">BasicFormatter</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="o">.</span><span class="n">timestamp</span><span class="p">,</span> 
+        <span class="o">.</span><span class="n">level</span><span class="p">,</span>
+        <span class="o">.</span><span class="n">file</span><span class="p">,</span>
+        <span class="o">.</span><span class="n">message</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</code></pre>
+
+<p>To change the separator from a single space specify the separator parameter:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">myFormat</span> <span class="o">=</span> <span class="kt">BasicFormatter</span><span class="p">(</span>
+    <span class="o">...</span><span class="p">,</span>
+    <span class="nv">separator</span><span class="p">:</span> <span class="s">"|"</span>
+<span class="p">)</span>
+</code></pre>
+
+<p>Note that <code><a href="Structs/BasicFormatter.html">BasicFormatter</a></code> will not add an empty string and separator for a <code>nil</code> metadata.  </p>
+
+<p>To change the timestamp from the default:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">myDateFormat</span> <span class="o">=</span> <span class="kt">DateFormatter</span><span class="p">()</span>
+<span class="n">myDateFormat</span><span class="o">.</span><span class="n">dateFormat</span> <span class="o">=</span> <span class="s">"yyyy-MM-dd'T'HH:mm:ssZZZZZ"</span>
+<span class="k">let</span> <span class="nv">myFormat</span> <span class="o">=</span> <span class="kt">BasicFormatter</span><span class="p">(</span>
+    <span class="o">...</span><span class="p">,</span>
+    <span class="nv">timestampFormatter</span><span class="p">:</span> <span class="n">myDateFormat</span>
+<span class="p">)</span>
+</code></pre>
+<h3 id='implementing-formatter' class='heading'>Implementing Formatter</h3>
 
 <p>You can also create your own <code><a href="Protocols/Formatter.html">Formatter</a></code> conforming object by implementing:</p>
 
@@ -185,7 +211,7 @@
 </ul>
 
 <p>More formatters to come!</p>
-<h3 id='pipe' class='heading'>Pipe</h3>
+<h2 id='piping' class='heading'>Piping</h2>
 
 <p>Pipes specify where your formatted log lines end up going to. Included already are:</p>
 
@@ -195,7 +221,7 @@
 </ul>
 
 <p>More pipes to come!</p>
-<h4 id='implementing-pipe' class='heading'>Implementing Pipe</h4>
+<h3 id='implementing-pipe' class='heading'>Implementing Pipe</h3>
 
 <p>You can also create your own <code><a href="Protocols/Pipe.html">Pipe</a></code> conforming object by implementing:</p>
 
@@ -206,7 +232,7 @@
 <p>Easy!</p>
 
 <p>Now you&rsquo;ve got your use-case formatted log lines traveling this way and then, what a charm 🖤</p>
-<h3 id='api-documentation' class='heading'>API Documentation</h3>
+<h2 id='api-documentation' class='heading'>API Documentation</h2>
 
 <p>For more insight into the library API documentation is found in the repo <a href="http://adorkable.github.io/swift-log-format-and-pipe/">here</a></p>
 

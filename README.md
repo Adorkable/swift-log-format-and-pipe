@@ -14,7 +14,7 @@ If you don't like the default log format change it to one you would like. If you
 To use the **LoggingFormatAndPipe** library in your project add the following in your `Package.swift`:
 
 ```swift
-.package(url: "https://github.com/adorkable/swift-log-format-and-pipe.git", .from("0.1.1")),
+.package(url: "https://github.com/adorkable/swift-log-format-and-pipe.git", .from("0.1.2")),
 ```
 
 
