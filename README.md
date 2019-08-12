@@ -14,7 +14,7 @@ If you don't like the default log format change it to one you would like. If you
 To use the **LoggingFormatAndPipe** library in your project add the following in your `Package.swift`:
 
 ```swift
-.package(url: "https://github.com/adorkable/swift-log-format-and-pipe.git", .from("0.1.1")),
+.package(url: "https://github.com/adorkable/swift-log-format-and-pipe.git", .from("0.1.2")),
 ```
 
 
@@ -31,11 +31,52 @@ let logger = Logger(label: "example") { _ in
 }
 ```
 
-### Format
-There are a number of ways of customizing the format.
+*Example:*
 
-#### BasicFormatter
-`BasicFormatter` allows you to set the sequence of `LogComponents`, a separator and automatically processes them for each new log message.
+```swift
+let logger = Logger(label: "example") { _ in 
+	return LoggingFormatAndPipe.Handler(
+		formatter: BasicFormatter.adorkable,
+		pipe: LoggerTextOutputStreamPipe.standardOutput
+	)
+}
+```
+
+## Formatting
+There are a number of ways of customizing the format but are generally composed of a combination of `LogComponents`:
+
+* `.timestamp` - Timestamp of log
+* `.level` - Log level
+* `.message` - The actual message
+* `.metadata` - Log metadata
+* `.file` - The log's originating file
+* `.line` - The log's originating line number in the file
+* `.function` - The log's originating function
+* `.text(String)` - Static text
+* `.group([LogComponents])` - Formatters may separate specified `LogComponents` in various ways as per their format, `.group` tells the Formatter to combine the `LogComponents` without using its separation
+
+### BasicFormatter
+`BasicFormatter` allows you to specify a sequence of `LogComponents` and a separator string and automatically processes them into a single line for each new log message. 
+
+It includes already setup static instances:
+
+* `.apple` - [apple/swift-log](https://github.com/apple/swift-log) format
+
+  `{timestamp} {level}: {message}`
+
+  *Example:*
+  
+  `2019-07-30T13:49:07-0400 error: Test error message`
+* `.adorkable` - Adorkable's standard format 😘 
+
+  `{timestamp} ▶ {level} ▶ {file}:{line} ▶ {function} ▶ {message} ▶ {metadata}`
+
+  *Example:*
+  
+  `2019-07-30T13:49:07-0400 ▶ error ▶ /asdf/swift-log-format-and-pipe/Tests/LoggingFormatAndPipeTests/FormatterTests.swift:25 ▶ testFormatter(_:) ▶ Test error message`
+
+#### Customizing a BasicFormatter
+If none of these work you can customize your own instance!
 
 Suppose you want a special short log format with a timestamp, the level, the file it originated in, and the message itself:
 
@@ -59,6 +100,8 @@ let myFormat = BasicFormatter(
 )
 ```
 
+Note that `BasicFormatter` will not add an empty string and separator for a `nil` metadata.  
+
 To change the timestamp from the default:
 
 ```swift
@@ -70,12 +113,7 @@ let myFormat = BasicFormatter(
 )
 ```
 
-`BasicFormatter` also includes already setup static instances:
-
-* `.apple` - [apple/swift-log](https://github.com/apple/swift-log) format
-* `.adorkable` - Adorkable's standard format 😘
-
-#### Implementing Formatter
+### Implementing Formatter
 You can also create your own `Formatter` conforming object by implementing:
 
 * `var timestampFormatter: DateFormatter { get }`
@@ -86,8 +124,7 @@ You can also create your own `Formatter` conforming object by implementing:
                     
 More formatters to come!
 
-### Pipe
-
+## Piping
 Pipes specify where your formatted log lines end up going to. Included already are:
 
 * `LoggerTextOutputStreamPipe.standardOutput` - log lines to `stdout`
@@ -95,7 +132,7 @@ Pipes specify where your formatted log lines end up going to. Included already a
 
 More pipes to come!
 
-#### Implementing Pipe 
+### Implementing Pipe 
 You can also create your own `Pipe` conforming object by implementing:
 
 * `func handle(_ formattedLogLine: String)`
@@ -104,5 +141,5 @@ Easy!
 
 Now you've got your use-case formatted log lines traveling this way and then, what a charm 🖤
 
-### API Documentation
+## API Documentation
 For more insight into the library API documentation is found in the repo [here](http://adorkable.github.io/swift-log-format-and-pipe/)
