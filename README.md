@@ -1,4 +1,6 @@
 # LoggingFormatAndPipe
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FAdorkable%2Fswift-log-format-and-pipe.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FAdorkable%2Fswift-log-format-and-pipe?ref=badge_shield)
+
 **LoggingFormatAndPipe** provides a [Swift Logging API](https://github.com/apple/swift-log) Handler which allows you to customized both your log messages' formats as well as their destinations.
 
 If you don't like the default log format change it to one you would like. If you want one destination to be formatted differently than your other destination you can with ease. Or send the same format to multiple destinations!
@@ -143,3 +145,7 @@ Now you've got your use-case formatted log lines traveling this way and then, wh
 
 ## API Documentation
 For more insight into the library API documentation is found in the repo [here](http://adorkable.github.io/swift-log-format-and-pipe/)
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FAdorkable%2Fswift-log-format-and-pipe.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FAdorkable%2Fswift-log-format-and-pipe?ref=badge_large)
